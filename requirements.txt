@@ -1,21 +1,37 @@
+# =========================
+# API
+# =========================
 fastapi
-uvicorn[standard]
-
+uvicorn
 python-multipart
 
+# =========================
+# Configuration
+# =========================
 pydantic
 pydantic-settings
-
 python-dotenv
 
-httpx
+# =========================
+# PDF Processing
+# =========================
+pymupdf
 
-pytest
+# =========================
+# AI / LLM
+# =========================
+ollama
 
 langchain
 langchain-community
 langchain-ollama
 
+# =========================
+# Vector Database
+# =========================
 chromadb
 
-pypdf
+# =========================
+# Testing
+# =========================
+pytest

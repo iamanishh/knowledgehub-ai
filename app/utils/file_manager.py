@@ -10,7 +10,7 @@ class FileManager:
     UPLOAD_DIR = Path("uploads")
 
     @classmethod
-    def save(cls, file):
+    def save(cls, file) -> Path:
 
         logger.info("Saving file: %s", file)
 
@@ -25,13 +25,10 @@ class FileManager:
         with path.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        return filename
+        return path
 
     @classmethod
-    def delete(cls, filename):
+    def delete(cls, file_path: Path):
 
-        path = cls.UPLOAD_DIR / filename
-
-        if path.exists():
-            path.unlink()
-
+        if file_path.exists():
+            file_path.unlink()
