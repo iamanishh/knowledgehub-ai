@@ -5,9 +5,10 @@ from app.schemas.document import  DocumentResponse
 from app.utils.document_validator import DocumentValidator
 from app.utils.file_manager import FileManager
 from app.core.logging import logger
-from app.services.document_processor import DocumentProcessor
+from app.services.indexing_service import IndexingService
 
-processor = DocumentProcessor()
+indexing_service = IndexingService()
+
 
 class DocumentService:
 
@@ -15,16 +16,15 @@ class DocumentService:
     def upload(file):
 
         logger.info("Starting document upload.")
-
         DocumentValidator.validate(file)
+
         stored_file_path = FileManager.save(file)
 
-        parsed_document = processor.process(stored_file_path)
+        embeddings = indexing_service.index_document(stored_file_path)
 
         logger.info(
-            "Document processed | pages=%s text_length=%s",
-            parsed_document.pages,
-            len(parsed_document.text),
+            "Document indexed successfully | embeddings=%s",
+            len(embeddings),
         )
 
         logger.info(
@@ -32,7 +32,6 @@ class DocumentService:
             file.filename,
             stored_file_path.name,
         )
-
 
         return DocumentResponse(
             id=str(uuid.uuid4()),
