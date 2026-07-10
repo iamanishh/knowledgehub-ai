@@ -22,3 +22,17 @@ class ChromaClient:
             documents=[embedding.text],
             metadatas=[metadata]
         )
+
+    def get_all(self):
+        return self.collection.get(
+            include=["documents", "metadatas"]
+        )
+
+
+    def delete(self, filename: str):
+        self.collection.delete(
+            where={
+                "filename": filename
+            }
+        )
+
