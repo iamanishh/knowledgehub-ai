@@ -3,28 +3,36 @@ import os
 
 from app.prompts.prompt_builder import PromptBuilder
 from app.vectorstore.search_service import SearchService
+from app.core.settings import settings
 
 class RAGService:
-    MODEL_NAME = "llama3.2:3b"
 
     def __init__(self):
         self.search_service = SearchService()
 
         self.client = Client(
-            host=os.getenv(
-                "OLLAMA_HOST",
-                "http://localhost:11434"
-            )
+            host=settings.OLLAMA_BASE_URL
         )
 
     def answer(self, question: str) -> str:
-        context = self.search_service.search(question)
+
+        search_results = self.search_service.search(question)
+
+        if not search_results:
+            return "I couldn't find any relevant information in the uploaded documents."
+
+        context = []
+        for result in search_results:
+            context.append(result.text)
+
+
         prompt = PromptBuilder.build(
             question=question,
             context=context
         )
+
         response = self.client.chat(
-            model=self.MODEL_NAME,
+            model=settings.LLM_MODEL,
             messages=[
                 {
                     "role": "user",

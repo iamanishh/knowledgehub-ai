@@ -1,6 +1,5 @@
 from datetime import datetime
 import uuid
-from fastapi import HTTPException
 
 from app.schemas.document import  DocumentResponse
 from app.utils.document_validator import DocumentValidator
@@ -9,11 +8,14 @@ from app.core.logging import logger
 from app.services.indexing_service import IndexingService
 from app.vectorstore.chroma_client import ChromaClient
 from app.schemas.document_summary import DocumentSummary
+from app.core.settings import settings
 from pathlib import Path
+
+from app.exceptions.custom_exceptions import DocumentNotFoundError
 
 indexing_service = IndexingService()
 client = ChromaClient()
-UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR = Path(settings.UPLOAD_DIR)
 
 
 class DocumentService:
@@ -80,10 +82,8 @@ class DocumentService:
         file_path = UPLOAD_DIR / stored_filename
 
         if not file_path.exists():
-            raise HTTPException(
-                status_code=404,
-                detail="Document not found"
-            )
+            raise DocumentNotFoundError(stored_filename)
+        
 
         client.delete(stored_filename)
 
