@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 
 from app.services.rag_service import RAGService
-
+from app.schemas.search_result import SearchResult
 
 def test_rag_returns_answer():
 
@@ -9,7 +9,12 @@ def test_rag_returns_answer():
 
     service.search_service.search = Mock(
         return_value=[
-            "Docker is a container platform"
+            SearchResult(
+                text="Docker is a container platform",
+                filename="resume.pdf",
+                chunk=0,
+                distance=0.2
+            )
         ]
     )
     fake_response = Mock()
@@ -29,7 +34,14 @@ def test_search_called_once():
     service = RAGService()
 
     service.search_service.search = Mock(
-        return_value=["Context"]
+        return_value=[
+            SearchResult(
+                text="Context",
+                filename="resume.pdf",
+                chunk=0,
+                distance=0.2
+            )
+        ]
     )
 
     fake_response = Mock()

@@ -2,14 +2,14 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from app.schemas.document_chunk import DocumentChunk
 from app.schemas.parsed_document import ParsedDocument
-
+from app.core.settings import settings
 
 class TextChunker:
 
     def __init__(self):
         self.splitter = RecursiveCharacterTextSplitter(
-            chunk_size=800,
-            chunk_overlap=150,
+            chunk_size=settings.CHUNK_SIZE,
+            chunk_overlap=settings.CHUNK_OVERLAP,
             length_function=len,
             is_separator_regex=False
         )

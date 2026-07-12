@@ -1,5 +1,6 @@
 from ollama import Client
 from app.schemas.embedding_result import EmbeddingResult
+from app.core.settings import settings
 import os
 
 
@@ -7,18 +8,15 @@ class EmbeddingService:
     """
     Generate embedding using ollama
     """
-
-    MODEL_NAME = "nomic-embed-text"
-
     def __init__(self):
         self.client = Client(
-            host=os.getenv("OLLAMA_HOST", "http://localhost:11434")
+            host=settings.OLLAMA_BASE_URL
         )
 
     def embed(self, text: str) -> EmbeddingResult:
 
         response = self.client.embed(
-            model=self.MODEL_NAME,
+            model=settings.MODEL_NAME,
             input=text
         )
 

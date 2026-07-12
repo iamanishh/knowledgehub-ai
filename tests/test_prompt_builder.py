@@ -22,4 +22,4 @@ def test_prompt_contains_instructions():
         question="Docker?",
         context=["Docker."]
     )
-    assert "Answer ONLY using the information" in prompt
+    assert "Answer ONLY using the provided context." in prompt

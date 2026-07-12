@@ -9,12 +9,15 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+*.py[cod]
 
 # Environment
 .env
 
 # Uploads
 uploads/
+data/chroma/
+*sqlite3
 
 # Logs
 logs/

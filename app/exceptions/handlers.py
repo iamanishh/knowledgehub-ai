@@ -5,7 +5,8 @@ from app.exceptions.custom_exceptions import (
     InvalidFileTypeError,
     EmptyFilenameError,
     FileTooLargeError,
-    DocumentSaveError
+    DocumentSaveError,
+    DocumentNotFoundError,
 )
 
 def register_exception_handlers(app):
@@ -37,6 +38,15 @@ def register_exception_handlers(app):
             status_code=500,
             content={"detail": "Document upload failed."},
         )
+
+    @app.exception_handler(DocumentNotFoundError)
+    async def document_not_found_handler(request: Request, exc: DocumentNotFoundError):
+        return JSONResponse(
+            status_code=404,
+            content={"detail": f"Document '{exc.filename}' not found."},
+        )
+
+
 
 
 

@@ -9,19 +9,29 @@ class PromptBuilder:
         joined_context = "\n\n".join(context)
 
         return f"""
-You are an AI assistant.
+        You are a helpful AI assistant.
 
-Answer ONLY using the information provided below.
+        Answer ONLY using the provided context.
 
-If the answer is not present in the context, reply:
+        If the answer cannot be found in the context, reply exactly:
 
-"I don't know based on the provided documents."
+        "I don't know based on the provided documents."
 
-Context:
-{joined_context}
+        Do not make up information.
 
-Question:
-{question}
+        ========================
+        CONTEXT
+        ========================
 
-Answer:
-""".strip()
+        {joined_context}
+
+        ========================
+        QUESTION
+        ========================
+
+        {question}
+
+        ========================
+        ANSWER
+        ========================
+        """.strip()

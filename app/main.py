@@ -6,6 +6,7 @@ from app.api.routes.documents import router as document_router
 from app.exceptions.handlers import register_exception_handlers
 from app.api.routes.chat import router as chat_router
 
+
 app = FastAPI(
     title="KnowledgeHub AI",
     version="1.0.0",
